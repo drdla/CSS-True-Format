@@ -22,7 +22,7 @@ def normalize_code(code):
     code = re.sub(r'\n', r'', code)                                         # remove \n
     code = re.sub(r',[\d\s\.\#\+>:]*\{', '{', code)                         # remove invalid selectors
     code = re.sub(r';\s*;', ';', code)                                      # remove superfluous ;
-
+    code = re.sub(r';\t;', '    ', code)                                    # replace tabs with four spaces
     code = re.sub(r'\/\*\s*([\s\S]+?)\s*\*\/', r'/* \1 */', code)           # add space before and after comment content
     code = re.sub(r'\}\s*(\/\*[\s\S]+?\*\/)\s*', r'}\n\1\n', code)          # add \n before and after outside comment
     code = re.sub(r'(http[s]?:) \/\/', r'\1//', code)                       # fix space after http[s]:
@@ -43,6 +43,8 @@ def apply_LaterPay_style(code):
     code = re.sub(r'((?:@charset|@import)[^;]+;)\s*', r'\1\n', code)        # add \n after @charset & @import
     code = re.sub(r';\s*([^\};]+?\{)', r';\n\1', code)                      # add \n before included selector
 
+    # TODO: preserve up to to empty lines
+    # TODO: don´t break vendor prefixing and sort properties with vendor prefixes before unprefixed properties
     # TODO: add space around > + /
     # TODO: add space around *, if at least one adjacent character is a number (in order to preserve hacks)
     # TODO: remove " or ' with url(...)
@@ -111,8 +113,7 @@ def sort_properties(code):
     return code
 
 def expand_long_rules(code):
-    expand_threshold = 120  # expand rules with > 120 charactes
-# TODO: make this a setting
+    expand_threshold = 100                                                  # expand rules that exceed a given line length
     lines = code.split('\n')
 
     for i in range(len(lines)):
@@ -129,7 +130,7 @@ def indent_rules(code):
     lines = code.split('\n')
     level = 0
     tabSize = 4
-    spaces = ' ' * tabSize
+    spaces = '    ' * tabSize
 
     for i in range(len(lines)):
         increment = lines[i].count('{') - lines[i].count('}')
