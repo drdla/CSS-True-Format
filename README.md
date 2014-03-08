@@ -11,25 +11,31 @@ CSS True Format is only a formatter and does not support grammar checks.
 
 **Example:**
 
-* Expanded format:
+* Original format:
+    body {background:#ffffff url("../img/homepage/noize.png");}
 
-    body {
-        background-color: #fff;
-        color: #333;
-        font-size: 12px;
-    }
-    a {
-        color: #06f;
-    }
-    a:hover {
-        color: #09c;
-    }
+    .languages {position: absolute; right: 0; top: 0; width:20rem;}
+    .languages span,
+    .languages a {line-height:2rem;}
+    .languages span {position:absolute; padding:0 0.5rem; right:0; color:#4fc270;}
+    .languages ul {display:none; margin:0; padding:0px 5px 0; z-index:1;}
+
+    .languages:hover span {display:none}
+    .languages:hover ul {display: block; width:20rem}
+    .languages li {float:right; list-style:none}
+    .languages a {display: block; padding:1rem}
+    .languages a:hover {color:#54cc76}
+
+
+    header .pure-menu {padding:.7rem 2rem 1.4rem;}
+    header .pure-menu-open {background-color:transparent;}
+    header .stuck .pure-menu {max-width:1056px; padding:.25rem 0 1rem;}
+    header .nav-wrapper {box-shadow:2px 2px 4px rgba(0, 0, 0, 0.08); margin-bottom:1.5rem;}
+    header .nav-wrapper.stuck {background-color:rgba(245, 245, 245, 0.92);box-shadow:2px 2px 4px rgba(0, 0, 0, 0.15);left:0;position:fixed;right:0;top:0; z-index:2;}
+
 
 * True format:
-
-        body { background-color: #fff; color: #333; font-size: 12px; }
-        a { color: #06f; }
-        a:hover { color: #09c; }
+    ...
 
 
 Installation

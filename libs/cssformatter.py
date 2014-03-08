@@ -20,9 +20,9 @@ def format_code(code):
 def normalize_code(code):
     code = re.sub(r'\s*([\{\}:;,])\s*', r'\1', code)                        # remove \s before and after characters {}:;,
     code = re.sub(r'\n', r'', code)                                         # remove \n
+    code = re.sub(r'\t', '    ', code)                                      # replace tabs with four spaces
     code = re.sub(r',[\d\s\.\#\+>:]*\{', '{', code)                         # remove invalid selectors
     code = re.sub(r';\s*;', ';', code)                                      # remove superfluous ;
-    code = re.sub(r';\t;', '    ', code)                                    # replace tabs with four spaces
     code = re.sub(r'\/\*\s*([\s\S]+?)\s*\*\/', r'/* \1 */', code)           # add space before and after comment content
     code = re.sub(r'\}\s*(\/\*[\s\S]+?\*\/)\s*', r'}\n\1\n', code)          # add \n before and after outside comment
     code = re.sub(r'(http[s]?:) \/\/', r'\1//', code)                       # fix space after http[s]:
@@ -31,8 +31,6 @@ def normalize_code(code):
     return code
 
 def apply_LaterPay_style(code):
-    code = fix_0_values(code)
-
     code = re.sub(r'(\S)\{', r'\1 {', code)                                 # add space before {
     code = re.sub(r'{(\s)(\S)', r'{\2', code)                               # remove space after {
     code = re.sub(r'((@media|@[\w-]*keyframes)[^\{]+\{)\s*', r'\1\n', code) # add \n after @media {
@@ -56,6 +54,8 @@ def apply_LaterPay_style(code):
     code = re.sub(r'\}\s*', r'}\n', code)                                   # add \n after }
 
     code = comma_rules(code)                                                # add space or \n after ,
+
+    code = fix_0_values(code)
     code = sort_properties(code)
     code = expand_long_rules(code)
     code = indent_rules(code)
