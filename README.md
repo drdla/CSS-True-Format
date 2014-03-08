@@ -14,16 +14,15 @@ CSS True Format is only a formatter and does not support grammar checks.
 * Original format:
     body {background:#ffffff url("../img/homepage/noize.png");}
 
-    .languages {position: absolute; right: 0; top: 0; width:20rem;}
-    .languages span,
-    .languages a {line-height:2rem;}
+    .languages {position: absolute; right: 0%; top: 0px; width:20rem;}
+    .languages span,.languages a {line-height:2rem;}
     .languages span {position:absolute; padding:0 0.5rem; right:0; color:#4fc270;}
     .languages ul {display:none; margin:0; padding:0px 5px 0; z-index:1;}
 
-    .languages:hover span {display:none}
+    .languages:hover span { display:none }
     .languages:hover ul {display: block; width:20rem}
     .languages li {float:right; list-style:none}
-    .languages a {display: block; padding:1rem}
+    .languages a {padding:1rem; display: block }
     .languages a:hover {color:#54cc76}
 
 

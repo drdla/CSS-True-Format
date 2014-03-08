@@ -32,28 +32,26 @@ def normalize_code(code):
 
 def apply_LaterPay_style(code):
     code = re.sub(r'(\S)\{', r'\1 {', code)                                 # add space before {
-    code = re.sub(r'{(\s)(\S)', r'{\2', code)                               # remove space after {
     code = re.sub(r'((@media|@[\w-]*keyframes)[^\{]+\{)\s*', r'\1\n', code) # add \n after @media {
-
-    code = re.sub(r'\s*([\:])\s*', r'\1', code)                             # remove space after :
-    code = re.sub(r'(\S);([^\}])', r'\1; \2', code)                         # add space after ;
-    code = re.sub(r'\;\s*(\/\*[^\n]*\*\/)\s*', r'; \1\n', code)             # fix comment after ;
     code = re.sub(r'((?:@charset|@import)[^;]+;)\s*', r'\1\n', code)        # add \n after @charset & @import
     code = re.sub(r';\s*([^\};]+?\{)', r';\n\1', code)                      # add \n before included selector
-
-    # TODO: preserve up to to empty lines
-    # TODO: don´t break vendor prefixing and sort properties with vendor prefixes before unprefixed properties
-    # TODO: add space around > + /
-    # TODO: add space around *, if at least one adjacent character is a number (in order to preserve hacks)
-    # TODO: remove " or ' with url(...)
-    # TODO: compress hex color values
-
-    code = re.sub(r'(\/\*[^\n]*\*\/)\s+\}', r'\1}', code)                   # remove \n between comment and }
+    code = re.sub(r'{(\s)(\S)', r'{\2', code)                               # remove space after {
     code = re.sub(r'(\s)\}', r'\1}', code)                                  # remove space before }
     code = re.sub(r'([^;])\}', r'\1;}', code)                               # add missing ; before }
     code = re.sub(r'\}\s*', r'}\n', code)                                   # add \n after }
 
+    code = re.sub(r'\s*([\:])\s*', r'\1', code)                             # remove space after :
+    code = re.sub(r'(\S);([^\}])', r'\1; \2', code)                         # add space after ; except for before }
+    # TODO: add space around > + /
     code = comma_rules(code)                                                # add space or \n after ,
+
+    code = re.sub(r'\;\s*(\/\*[^\n]*\*\/)\s*', r'; \1\n', code)             # fix comment after ;
+    code = re.sub(r'(\/\*[^\n]*\*\/)\s+\}', r'\1}', code)                   # remove \n between comment and }
+
+    # TODO: preserve (up to two) empty lines
+    # TODO: add space around *, if at least one adjacent character is a number (in order to preserve hacks)
+    # TODO: remove " or ' with url(...)
+    # TODO: compress hex color values
 
     code = fix_0_values(code)
     code = sort_properties(code)
@@ -92,11 +90,12 @@ def sort_properties(code):
         rule = trim(lines[i])
 
         # extract CSS selector from rule
-        selectorCharacters = rule.find('{')
-        if selectorCharacters > 0:
-            selector = rule[:selectorCharacters]
+        selectorEnd = rule.find('{')
+        if selectorEnd > 0:
+            selector = rule[:selectorEnd]
             # delete selector from rule
-            rule = re.sub(r'(\S*\s*\{)', r'', rule)
+            propertiesStart = selectorEnd + 1
+            rule = rule[propertiesStart:]
             rule = re.sub(r'\}', r'', rule)
 
             # sort CSS properties alphabetically
@@ -130,7 +129,7 @@ def indent_rules(code):
     lines = code.split('\n')
     level = 0
     tabSize = 4
-    spaces = '    ' * tabSize
+    spaces = ' ' * tabSize
 
     for i in range(len(lines)):
         increment = lines[i].count('{') - lines[i].count('}')
