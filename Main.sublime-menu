@@ -1,0 +1,53 @@
+[
+	{
+		"id": "preferences",
+		"children":
+		[
+			{
+				"id": "package-settings",
+				"children":
+				[
+					{
+						"caption": "CSS True Format",
+						"children":
+						[
+							{
+								"command": "open_file",
+								"args": {
+									"file": "${packages}/CSS True Format/Example.sublime-keymap"
+								},
+								"caption": "Key Bindings – Example"
+							},
+							{
+								"command": "open_file",
+								"args": {
+									"file": "${packages}/User/Default (Windows).sublime-keymap",
+									"platform": "Windows"
+								},
+								"caption": "Key Bindings – User"
+							},
+							{
+								"command": "open_file",
+								"args": {
+									"file": "${packages}/User/Default (OSX).sublime-keymap",
+									"platform": "OSX"
+								},
+								"caption": "Key Bindings – User"
+							},
+							{
+								"command": "open_file",
+								"args": {
+									"file": "${packages}/User/Default (Linux).sublime-keymap",
+									"platform": "Linux"
+								},
+								"caption": "Key Bindings – User"
+							},
+							{ "caption": "-" }
+						]
+					}
+				]
+			}
+		]
+
+	}
+]

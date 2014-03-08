@@ -1,0 +1,6 @@
+[
+	{
+		"keys": ["ctrl+alt+]"],
+		"command": "css_true_format"
+	}
+]
