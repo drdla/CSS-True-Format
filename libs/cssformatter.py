@@ -3,7 +3,7 @@
 #   written by Dominik Rodler <drodler@laterpay.net>
 #
 # usage:
-#   format_code(code, action)
+#   format_code(code)
 #
 
 """Format CSS/SASS/SCSS/LESS code according to LaterPay styleguide."""
@@ -108,9 +108,11 @@ def sort_properties(code):
             # sort CSS properties alphabetically
             properties = re.sub(r';\s', r';', rule).split(';')
             properties = filter(None, properties)
-            properties = sorted(properties)
-
             properties = [prop.lower() for prop in properties]              # lowercase all properties and their values
+
+            # custom sorting required in order to not chanage the sequence of properties in a way that affects appearance
+            # : must be sorted higher than -
+            properties = sorted(properties, key=lambda x:x.replace(':', 'a'))
 
             rule = selector + '{' + '; '.join(properties) + ';}'            # reconstruct rule
 

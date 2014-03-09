@@ -89,7 +89,7 @@ Clone the repository in your Sublime Text "Packages" directory:
     git clone git://github.com/drdla/CSS-True-Format.git "CSS True Format"
 
 On OS X you can find your packages inside directory
-    ~/Library/Application Support/Sublime Text 3/Packages/
+    ~/Library/Application\ Support/Sublime\ Text\ 3/Packages/
 
 
 Usage
