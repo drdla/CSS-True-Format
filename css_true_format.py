@@ -7,6 +7,8 @@ else:
 	# ST3, Python 3.3
 	from .libs.cssformatter import format_code
 
+    SETTINGS_FILE = 'CSSTrueFormat.sublime-settings'
+
 def has_css_syntax(view):
     file_name = view.file_name()
     syntaxPath = view.settings().get('syntax')
@@ -26,7 +28,8 @@ def has_css_syntax(view):
 class PreSaveFormatListner(sublime_plugin.EventListener):
     """Event listener to run CSS True Format during the presave event"""
     def on_pre_save(self, view):
-        # if (s.get("format_on_save") == True and has_css_syntax(view)):
+        settings = sublime.load_settings(SETTINGS_FILE)
+        should_format = settings.get('format_on_save') and has_css_syntax(view)
         if has_css_syntax(view):
             view.run_command('css_true_format')
 
