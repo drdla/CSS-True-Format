@@ -28,8 +28,8 @@ def has_css_syntax(view):
 class PreSaveFormatListner(sublime_plugin.EventListener):
     """Event listener to run CSS True Format during the presave event"""
     def on_pre_save(self, view):
-        settings = sublime.load_settings(SETTINGS_FILE)
-        should_format = settings.get('format_on_save') and has_css_syntax(view)
+        # settings = sublime.load_settings(SETTINGS_FILE)
+        # should_format = settings.get('format_on_save') and has_css_syntax(view)
         if has_css_syntax(view):
             view.run_command('css_true_format')
 
