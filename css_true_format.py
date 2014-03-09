@@ -1,4 +1,4 @@
-import sublime, sublime_plugin, sys, os, inspect
+import sublime, sublime_plugin, sys, os
 
 if sys.version_info < (3, 0):
 	# ST2, Python 2.6
@@ -7,7 +7,7 @@ else:
 	# ST3, Python 3.3
 	from .libs.cssformatter import format_code
 
-    SETTINGS_FILE = 'CSSTrueFormat.sublime-settings'
+    # SETTINGS_FILE = 'CSSTrueFormat.sublime-settings'
 
 def has_css_syntax(view):
     file_name = view.file_name()
