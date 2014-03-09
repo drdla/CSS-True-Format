@@ -56,10 +56,10 @@ def apply_LaterPay_style(code):
     code = re.sub(r'\;\s*(\/\*[^\n]*\*\/)\s*', r'; \1\n', code)             # fix comment after ;
     code = re.sub(r'(\/\*[^\n]*\*\/)\s+\}', r'\1}', code)                   # remove \n between comment and }
 
-    # FIXME: don´t break data URI with rules for , and ; -> data:image/png;base64,iVBORw0...
+    # #1 Don´t break data URI with rules for , and ; -> data:image/png;base64,iVBORw0...
 
     code = fix_0_values(code)
-    code = sort_properties(code)
+    code = sort_properties(code)        # #2 Optimize sorting of properties; e.g. border should not be sorted after border-width
     code = expand_long_rules(code)
     code = indent_rules(code)
 
