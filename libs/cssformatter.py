@@ -114,7 +114,6 @@ def sort_properties(code):
             # sort CSS properties alphabetically
             properties = re.sub(r';\s', r';', rule).split(';')
             properties = filter(None, properties)
-            properties = [prop.lower() for prop in properties]              # lowercase all properties and their values
 
             # custom sorting required in order to not chanage the sequence of properties in a way that affects appearance
             # : must be sorted higher than -
