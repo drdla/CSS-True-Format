@@ -28,7 +28,6 @@ def normalize_code(code):
     code = re.sub(r',[\d\s\.\#\+>:]*\{', '{', code)                         # remove invalid selectors
     code = re.sub(r';\s*;', ';', code)                                      # remove superfluous ;
     code = re.sub(r'\/\*\s*([\s\S]+?)\s*\*\/', r'/* \1 */', code)           # add space before and after comment content
-    code = re.sub(r'\}\s*(\/\*[\s\S]+?\*\/)\s*', r'}\n\1\n', code)          # add \n before and after outside comment
     code = re.sub(r'(http[s]?:) \/\/', r'\1//', code)                       # fix space after http[s]:
     code = re.sub(r'\s*!important', ' !important', code)                    # add space before !important
 
@@ -53,13 +52,14 @@ def apply_LaterPay_style(code):
     code = re.sub(r':0\.', r':.', code)                                     # remove 0 from 0.x values directly after :
     code = comma_rules(code)                                                # add space or \n after ,
 
+    # code = re.sub(r'\}\s*(\/\*[\s\S]+?\*\/)\s*', r'}\n\1\n', code)          # add \n before and after outside comment
     code = re.sub(r'\;\s*(\/\*[^\n]*\*\/)\s*', r'; \1\n', code)             # fix comment after ;
     code = re.sub(r'(\/\*[^\n]*\*\/)\s+\}', r'\1}', code)                   # remove \n between comment and }
 
     # #1 Don´t break data URI with rules for , and ; -> data:image/png;base64,iVBORw0...
 
     code = fix_0_values(code)
-    code = sort_properties(code)        # #2 Optimize sorting of properties; e.g. border should not be sorted after border-width
+    code = sort_properties(code)
     code = expand_long_rules(code)
     code = indent_rules(code)
 
