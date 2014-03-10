@@ -114,6 +114,13 @@ Author
 Created by Dominik Rodler.
 
 
+Testing
+-------
+
+Run::
+
+    python runtests.py
+
 Acknowledgements
 ----------------
 
