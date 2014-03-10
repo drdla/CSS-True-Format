@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #
 # Format CSS/SASS/SCSS/LESS code according to LaterPay styleguide.
 #   written by Dominik Rodler <drodler@laterpay.net>
@@ -5,10 +7,14 @@
 # usage:
 #   format_code(code)
 #
+"""
+Format CSS/SASS/SCSS/LESS code according to LaterPay styleguide.
+"""
+from __future__ import unicode_literals, print_function, absolute_import
 
-"""Format CSS/SASS/SCSS/LESS code according to LaterPay styleguide."""
 
 import re
+
 
 def format_code(code):
     code = normalize_code(code)
