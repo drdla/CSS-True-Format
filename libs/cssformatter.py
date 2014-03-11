@@ -165,6 +165,12 @@ def indent_rules(code):
     return code
 
 
+def fix_data_uris(code):
+    # remove \s inserted into data URIs by other formatting
+
+    return code
+
+
 def fix_0_values(code):
     code = re.sub(r'\s0[emprx%]+', r' 0', code)                             # remove unit from 0 values after \s
     code = re.sub(r':0[emprx%]+', r':0', code)                              # remove unit from 0 values after :
