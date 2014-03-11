@@ -172,9 +172,7 @@ def fix_data_uris(code):
 
 
 def fix_0_values(code):
-    code = re.sub(r'\s0[emprx%]+', r' 0', code)                             # remove unit from 0 values after \s
-    code = re.sub(r':0[emprx%]+', r':0', code)                              # remove unit from 0 values after :
-    # code = re.sub(r'([\s:])0[emprx%]+', r'\g<1>0', code)                    # remove unit from 0 values after \s or :
+    code = re.sub(r'([\s:])0[emprx%]+', r'\g<1>0', code)                    # remove unit from 0 values after \s or :
 
     return code
 
