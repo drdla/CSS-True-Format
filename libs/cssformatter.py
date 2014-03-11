@@ -22,6 +22,7 @@ def format_code(code):
 
     return code
 
+
 def normalize_code(code):
     code = code.strip()
     code = re.sub(r'\t', '    ', code)                                      # replace tabs with four spaces
@@ -39,6 +40,7 @@ def normalize_code(code):
 
     return code
 
+
 def apply_LaterPay_style(code):
     code = re.sub(r'(\S)\{', r'\1 {', code)                                 # add space before {
     code = re.sub(r'((@media|@[\w-]*keyframes)[^\{]+\{)\s*', r'\1\n', code) # add \n after @media {
@@ -53,6 +55,7 @@ def apply_LaterPay_style(code):
     code = re.sub(r'\s*([\:])\s*', r'\1', code)                             # remove space after :
     code = re.sub(r'(\S);([^\}])', r'\1; \2', code)                         # add space after ; except for before }
     code = code.replace('"', '\'')                                          # replace " with '
+    code = re.sub(r'url\(\'([^\)]+)\'\)', r'url(\1)', code)                 # remove ' from within url()
     code = re.sub(r'(\S)([>+])', r'\1 \2', code)                            # add space before > +
     code = re.sub(r'([>+])(\S)', r'\1 \2', code)                            # add space after > +
     code = re.sub(r':0\.', r':.', code)                                     # remove 0 from 0.x values directly after :
@@ -62,9 +65,9 @@ def apply_LaterPay_style(code):
     code = re.sub(r'\;\s*(\/\*[^\n]*\*\/)\s*', r'; \1\n', code)             # fix comment after ;
     code = re.sub(r'(\/\*[^\n]*\*\/)\s+\}', r'\1}', code)                   # remove \n between comment and }
 
-    # #1 Don´t break data URI with rules for , and ; -> data:image/png;base64,iVBORw0...
-
+    code = fix_data_uris(code)
     code = fix_0_values(code)
+    # code = format_hex_colors(code)
     code = sort_properties(code)
     code = expand_long_rules(code)
     code = indent_rules(code)
@@ -72,6 +75,7 @@ def apply_LaterPay_style(code):
     code = code.strip() + '\n'                                              # make sure the file ends with a newline
 
     return code
+
 
 def comma_rules(code):
     block = code.split('}')
@@ -127,6 +131,7 @@ def sort_properties(code):
 
     return code
 
+
 def expand_long_rules(code):
     expand_threshold = 120                                                  # expand rules that exceed a given line length
     lines = code.split('\n')
@@ -140,6 +145,7 @@ def expand_long_rules(code):
     code = '\n'.join(lines)
 
     return code
+
 
 def indent_rules(code):
     lines = code.split('\n')
@@ -158,8 +164,17 @@ def indent_rules(code):
 
     return code
 
+
 def fix_0_values(code):
     code = re.sub(r'\s0[emprx%]+', r' 0', code)                             # remove unit from 0 values after \s
     code = re.sub(r':0[emprx%]+', r':0', code)                              # remove unit from 0 values after :
+    # code = re.sub(r'([\s:])0[emprx%]+', r'\g<1>0', code)                    # remove unit from 0 values after \s or :
+
+    return code
+
+
+def format_hex_colors(code):
+    # lowercase and shorthand hex values
+    # finditer()  Find all substrings where the RE matches, and returns them as an iterator.
 
     return code
