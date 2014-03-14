@@ -67,7 +67,7 @@ def apply_LaterPay_style(code):
 
     code = fix_data_uris(code)
     code = fix_0_values(code)
-    # code = format_hex_colors(code)
+    code = format_hex_colors(code)
     code = sort_properties(code)
     code = expand_long_rules(code)
     code = indent_rules(code)
@@ -178,7 +178,12 @@ def fix_0_values(code):
 
 
 def format_hex_colors(code):
-    # lowercase and shorthand hex values
-    # finditer()  Find all substrings where the RE matches, and returns them as an iterator.
+    hexColor = re.compile(r'#([0-9a-fA-F]{3,6})')
+
+    for hexValue in hexColor.finditer(code):
+        hexValueNew = hexValue.group(1).lower()                             # lowercase hex colors
+        # if len(hexValueNew) == 6
+        #     hexValueNew = re.sub(r'(\w)\1(.)\2(.)\3', r'\1\2\3', hexValueNew) # compress 6-digit values to 3-digit values
+        code = code.replace(hexValue.group(1), hexValueNew)
 
     return code
