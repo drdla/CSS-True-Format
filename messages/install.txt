@@ -4,10 +4,9 @@ Thank you for installing CSS True Format!
 Usage
 -----
 
-Select the code, or place cursor in the document, and execute commands in one of the following ways:
+Select the code, or place cursor in the document, and execute the commands in the following way:
 
-* Context Menu: CSS True Format.
-* Command Panel: Open command panel: `Ctrl+Shift+P` (Linux/Windows) or `Cmd+Shift+P` (OS X) and select **CSS True Format**.
+* Context Menu: Format CSS.
 
 
 Shortcuts

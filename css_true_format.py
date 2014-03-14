@@ -7,7 +7,7 @@ else:
 	# ST3, Python 3.3
 	from .libs.cssformatter import format_code
 
-    SETTINGS_FILE = 'CSSTrueFormat.sublime-settings'
+SETTINGS_FILE = 'CSSTrueFormat.sublime-settings'
 
 def has_css_syntax(view):
     file_name = view.file_name()
