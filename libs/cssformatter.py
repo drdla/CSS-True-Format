@@ -25,45 +25,76 @@ def format_code(code):
 
 def normalize_code(code):
     code = code.strip()
-    code = re.sub(r'\t', '    ', code)                                      # replace tabs with four spaces
-    code = re.sub(r'[\r\f\v]', '\n', code)                                  # replace whitespace characters other than space with \n
-    code = re.sub(r'\s*([\{:;,])\s*', r'\1', code)                          # remove \s before and after {:;,
-    code = re.sub(r'\s*(\})', r'\1', code)                                  # remove \s before }
-    code = re.sub(r'\n[ ]+\n', r'\n\n', code)                               # remove spaces between \n
-    code = re.sub(r'(\})\n', r'\1', code)                                   # remove \n after }
+    # replace tabs with four spaces
+    code = re.sub(r'\t', '    ', code)
+    # replace whitespace characters other than space with \n
+    code = re.sub(r'[\r\f\v]', '\n', code)
+    # remove \s before and after {:;,
+    code = re.sub(r'\s*([\{:;,])\s*', r'\1', code)
+    # remove \s before }
+    code = re.sub(r'\s*(\})', r'\1', code)
+    # remove spaces between \n
+    code = re.sub(r'\n[ ]+\n', r'\n\n', code)
+    # remove \n after }
+    code = re.sub(r'(\})\n', r'\1', code)
 
-    code = re.sub(r',[\d\s\.\#\+>:]*\{', '{', code)                         # remove invalid selectors
-    code = re.sub(r';\s*;', ';', code)                                      # remove superfluous ;
-    code = re.sub(r'\/\*\s*([\s\S]+?)\s*\*\/', r'/* \1 */', code)           # add space before and after comment content
-    code = re.sub(r'(http[s]?:) \/\/', r'\1//', code)                       # fix space after http[s]:
-    code = re.sub(r'\s*!important', ' !important', code)                    # add space before !important
+    # remove invalid selectors
+    code = re.sub(r',[\d\s\.\#\+>:]*\{', '{', code)
+    # remove superfluous ;
+    code = re.sub(r';\s*;', ';', code)
+    # add space before and after comment content
+    code = re.sub(r'\/\*\s*([\s\S]+?)\s*\*\/', r'/* \1 */', code)
+    # fix space after http[s]:
+    code = re.sub(r'(http[s]?:) \/\/', r'\1//', code)
+    # add space before !important
+    code = re.sub(r'\s*!important', ' !important', code)
 
     return code
 
 
 def apply_LaterPay_style(code):
-    code = re.sub(r'(\S)\{', r'\1 {', code)                                 # add space before {
-    code = re.sub(r'((@media|@[\w-]*keyframes)[^\{]+\{)\s*', r'\1\n', code) # add \n after @media {
-    code = re.sub(r'((?:@charset|@import)[^;]+;)\s*', r'\1\n', code)        # add \n after @charset & @import
-    code = re.sub(r';\s*([^\};]+?\{)', r';\n\1', code)                      # add \n before included selector
-    code = re.sub(r'{(\s)(\S)', r'{\2', code)                               # remove space after {
-    code = re.sub(r'(\s)\}', r'\1}', code)                                  # remove space before }
-    code = re.sub(r'([^;])\}', r'\1;}', code)                               # add missing ; before }
-    code = re.sub(r'\}', r'}\n', code)                                      # add \n after }
-    code = re.sub(r'\n{3,}', r'\n\n\n', code)                               # preserve up to two consecutive empty lines
+    # add space before {
+    code = re.sub(r'(\S)\{', r'\1 {', code)
+    # add \n after @media {
+    code = re.sub(r'((@media|@[\w-]*keyframes)[^\{]+\{)\s*', r'\1\n', code)
+    # add \n after @charset & @import
+    code = re.sub(r'((?:@charset|@import)[^;]+;)\s*', r'\1\n', code)
+    # add \n before included selector
+    code = re.sub(r';\s*([^\};]+?\{)', r';\n\1', code)
+    # remove space after {
+    code = re.sub(r'{(\s)(\S)', r'{\2', code)
+    # remove space before }
+    code = re.sub(r'(\s)\}', r'\1}', code)
+    # add missing ; before }
+    code = re.sub(r'([^;])\}', r'\1;}', code)
+    # add \n after }
+    code = re.sub(r'\}', r'}\n', code)
+    # preserve up to two consecutive empty lines
+    code = re.sub(r'\n{3,}', r'\n\n\n', code)
 
-    code = re.sub(r'\s*([\:])\s*', r'\1', code)                             # remove space after :
-    code = re.sub(r'(\S);([^\}])', r'\1; \2', code)                         # add space after ; except for before }
-    code = code.replace('"', '\'')                                          # replace " with '
-    code = re.sub(r'url\(\'([^\)]+)\'\)', r'url(\1)', code)                 # remove ' from within url()
-    code = re.sub(r'(\S)([>+])', r'\1 \2', code)                            # add space before > +
-    code = re.sub(r'([>+])(\S)', r'\1 \2', code)                            # add space after > +
-    code = re.sub(r':0\.', r':.', code)                                     # remove 0 from 0.x values directly after :
-    code = comma_rules(code)                                                # add space or \n after ,
+    # remove space after :
+    code = re.sub(r'\s*([\:])\s*', r'\1', code)
+    # add space after ; except for before }
+    code = re.sub(r'(\S);([^\}])', r'\1; \2', code)
+    # replace " with '
+    code = code.replace('"', '\'')
+    # remove ' from within url()
+    code = re.sub(r'url\(\'([^\)]+)\'\)', r'url(\1)', code)
+    # add space before > +
+    code = re.sub(r'(\S)([>+])', r'\1 \2', code)
+    # add space after > +
+    code = re.sub(r'([>+])(\S)', r'\1 \2', code)
+    # remove 0 from 0.x values directly after :
+    code = re.sub(r':0\.', r':.', code)
+    # add space or \n after ,
+    code = comma_rules(code)
 
-    # code = re.sub(r'\}\s*(\/\*[\s\S]+?\*\/)\s*', r'}\n\1\n', code)          # add \n before and after outside comment
-    code = re.sub(r'\;\s*(\/\*[^\n]*\*\/)\s*', r'; \1\n', code)             # fix comment after ;
-    code = re.sub(r'(\/\*[^\n]*\*\/)\s+\}', r'\1}', code)                   # remove \n between comment and }
+    # code = re.sub(r'\}\s*(\/\*[\s\S]+?\*\/)\s*', r'}\n\1\n', code)
+    # # add \n before and after outside comment
+    # fix comment after ;
+    code = re.sub(r'\;\s*(\/\*[^\n]*\*\/)\s*', r'; \1\n', code)
+    # remove \n between comment and }
+    code = re.sub(r'(\/\*[^\n]*\*\/)\s+\}', r'\1}', code)
 
     code = fix_data_uris(code)
     code = fix_0_values(code)
@@ -72,7 +103,8 @@ def apply_LaterPay_style(code):
     code = expand_long_rules(code)
     code = indent_rules(code)
 
-    code = code.strip() + '\n'                                              # make sure the file ends with a newline
+    # make sure the file ends with a newline
+    code = code.strip() + '\n'
 
     return code
 
@@ -86,18 +118,22 @@ def comma_rules(code):
             if b[j].count('@import'):
                 s = b[j].split(';')
                 for k in range(len(s)):
-                    if not s[k].count('@import'):                           # ignore @import
+                    # ignore @import
+                    if not s[k].count('@import'):
                         s[k] = re.sub(r',(\S)', r',\n\1', s[k])
                 b[j] = ';'.join(s)
             else:
                 if j == len(b) - 1 or b[j].count('@media'):
-                    b[j] = re.sub(r',(\S)', r', \1', b[j])                  # add space after properties' or @media's ,
+                    # add space after properties' or @media's ,
+                    b[j] = re.sub(r',(\S)', r', \1', b[j])
                 else:
-                    b[j] = re.sub(r',(\S)', r',\n\1', b[j])                 # add \n after selectors' ,
+                    # add \n after selectors' ,
+                    b[j] = re.sub(r',(\S)', r',\n\1', b[j])
         block[i] = '{'.join(b)
     code = '}'.join(block)
 
     return code
+
 
 def sort_properties(code):
     lines = code.split('\n')
@@ -119,11 +155,12 @@ def sort_properties(code):
             properties = re.sub(r';\s', r';', rule).split(';')
             properties = filter(None, properties)
 
-            # custom sorting required in order to not chanage the sequence of properties in a way that affects appearance
+            # custom sorting required in order to not change the sequence of properties in a way that affects appearance
             # : must be sorted higher than -
-            properties = sorted(properties, key=lambda x:x.replace(':', 'a'))
+            properties = sorted(properties, key=lambda x: x.replace(':', 'a'))
 
-            rule = selector + '{' + '; '.join(properties) + ';}'            # reconstruct rule
+            # reconstruct rule
+            rule = selector + '{' + '; '.join(properties) + ';}'
 
         lines[i] = rule
 
@@ -133,14 +170,18 @@ def sort_properties(code):
 
 
 def expand_long_rules(code):
-    expand_threshold = 120                                                  # expand rules that exceed a given line length
+    # expand rules that exceed a given line length
+    expand_threshold = 120
     lines = code.split('\n')
 
     for i in range(len(lines)):
         if (expand_threshold < len(lines[i])):
-            lines[i] = re.sub(r'\{(\S)', r'{\n\1', lines[i])                # add \n after {
-            lines[i] = re.sub(r'(\S);([^\}])', r'\1;\n    \2', lines[i])    # add \n and indentation after ; except for ; before }
-            lines[i] = re.sub(r'([^\}])\s*\}', r'\1\n}', lines[i])          # add \n before }
+            # add \n after {
+            lines[i] = re.sub(r'\{(\S)', r'{\n\1', lines[i])
+            # add \n and indentation after ; except for ; before }
+            lines[i] = re.sub(r'(\S);([^\}])', r'\1;\n    \2', lines[i])
+            # add \n before }
+            lines[i] = re.sub(r'([^\}])\s*\}', r'\1\n}', lines[i])
 
     code = '\n'.join(lines)
 
@@ -172,7 +213,8 @@ def fix_data_uris(code):
 
 
 def fix_0_values(code):
-    code = re.sub(r'([\s:])0[emprx%]+', r'\g<1>0', code)                    # remove unit from 0 values after \s or :
+    # remove unit from 0 values after \s or :
+    code = re.sub(r'([\s:])0[emprx%]+', r'\g<1>0', code)
 
     return code
 
@@ -181,9 +223,11 @@ def format_hex_colors(code):
     hexColor = re.compile(r'#([0-9a-fA-F]{3,6})')
 
     for hexValue in hexColor.finditer(code):
-        hexValueNew = hexValue.group(1).lower()                             # lowercase hex colors
+        # lowercase hex colors
+        hexValueNew = hexValue.group(1).lower()
         # if len(hexValueNew) == 6
-        #     hexValueNew = re.sub(r'(\w)\1(.)\2(.)\3', r'\1\2\3', hexValueNew) # compress 6-digit values to 3-digit values
+        # hexValueNew = re.sub(r'(\w)\1(.)\2(.)\3', r'\1\2\3', hexValueNew) #
+        # compress 6-digit values to 3-digit values
         code = code.replace(hexValue.group(1), hexValueNew)
 
     return code

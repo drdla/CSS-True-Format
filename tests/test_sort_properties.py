@@ -9,9 +9,9 @@ from libs.cssformatter import sort_properties
 
 def test_prefixes_first():
     code = """
-    -some stuff
+    -webkit-border-radius:3px; border-radius:3px; -moz-border-radius:3px;
     """
     expected = """
-    -some otherstuff
+    -moz-border-radius:3px; -webkit-border-radius:3px; border-radius:3px;
     """
     assert (sort_properties(code) == expected)
