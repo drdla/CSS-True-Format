@@ -30,8 +30,6 @@ def normalize_code(code):
     code = replace_nonspace_whitespaces_with_newlines(code)
     code = remove_whitespace_around_some_special_characters(code)
     code = remove_whitespace_before_closing_curly_braces(code)
-    # this might break handling of comments:
-    # code = remove_newline_after_closing_curly_braces(code)
     code = remove_spaces_between_newlines(code)
     code = add_missing_semicolons(code)
     code = remove_superfluous_semicolons(code)
@@ -59,6 +57,7 @@ def apply_LaterPay_style(code):
 
     code = replace_double_quotes_with_single_quotes(code)
     code = remove_quotes_within_urls(code)
+    code = remove_quotes_from_types(code)
 
     code = fix_space_after_http(code)
     code = fix_data_uris(code)
@@ -95,12 +94,6 @@ def replace_tabs_with_spaces(code):
 
 def replace_nonspace_whitespaces_with_newlines(code):
     code = re.sub(r'[\r\f\v]', '\n', code)
-
-    return code
-
-
-def remove_newline_after_closing_curly_braces(code):
-    code = re.sub(r'(\})\n', r'\1', code)
 
     return code
 
@@ -180,6 +173,12 @@ def remove_quotes_within_urls(code):
     return code
 
 
+def remove_quotes_from_types(code):
+    code = re.sub(r'type=\'([^\)]+)\'', r'type=\1', code)
+
+    return code
+
+
 def handle_whitespace_after_comma(code):
     # add space or \n after ,
     block = code.split('}')
@@ -222,8 +221,8 @@ def add_missing_semicolons(code):
 def handle_comments(code):
     # add space before and after comment content
     code = re.sub(r'\/\*\s*([\s\S]+?)\s*\*\/', r'/* \1 */', code)
-    # code = re.sub(r'\}\s*(\/\*[\s\S]+?\*\/)\s*', r'}\n\1\n', code)
     # add \n before and after outside comment
+    # code = re.sub(r'\}\s*(\/\*[\s\S]+?\*\/)\s*', r'}\n\1\n', code)
     # fix comment after ;
     code = re.sub(r'\;\s*(\/\*[^\n]*\*\/)\s*', r'; \1\n', code)
     # remove \n between comment and }
@@ -319,7 +318,7 @@ def fix_space_after_http(code):
 
 
 def fix_data_uris(code):
-    # TODO: remove \s inserted into data URIs by other formatting
+    # FIXME: remove \s inserted into data URIs by other formatting
 
     return code
 
@@ -366,6 +365,10 @@ def add_newline_before_included_selectors(code):
 
 
 def add_newline_at_beginning_of_media_ruleset(code):
+    # FIXME: this currently fails like so:
+    # @media screen and (min-width:1030px) {;}
+    # .sticky-home-link {left:140px;}
+    # ;}
     code = re.sub(r'((@media|@[\w-]*keyframes)[^\{]+\{)\s*', r'\1\n', code)
 
     return code
