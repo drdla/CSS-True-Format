@@ -21,9 +21,9 @@ def has_css_syntax(view):
 
     css_family = ['css', 'sass', 'scss', 'less']
 
-    if (file_name != None):  # file exists, pull syntax type from extension
+    if (file_name is not None):  # file exists, pull syntax type from extension
         extension = os.path.splitext(file_name)[1][1:]
-    if (syntaxPath != None):
+    if (syntaxPath is not None):
         syntax = os.path.splitext(syntaxPath)[0].split('/')[-1].lower()
 
     return extension in css_family or syntax in css_family
